@@ -16,7 +16,6 @@
       height: 100vh;
     }
 
-    /* Estilos del modal */
     #orientationModal {
       display: none;
       position: fixed;
@@ -36,16 +35,6 @@
       margin-top: 40vh;
       font-size: 1.5em;
     }
-
-    @media screen and (max-width: 768px) and (orientation: portrait) {
-      #orientationModal {
-        display: block;
-      }
-
-      iframe {
-        display: none;
-      }
-    }
   </style>
 </head>
 <body>
@@ -55,10 +44,36 @@
   </div>
 
   <iframe 
+    id="powerBIFrame"
     title="Reporte de Power BI"
     src="https://app.powerbi.com/view?r=eyJrIjoiZGM5ZmMxOWYtOTkyNy00NTU5LTkxMjEtZDhjZjQ5MjQ0NDQyIiwidCI6IjU3N2ZjMWQ4LTA5MjItNDU4ZS04N2JmLWVjNGY0NTVlYjYwMCIsImMiOjR9"
     allowFullScreen="true">
   </iframe>
+
+  <script>
+    function checkOrientation() {
+      const isMobile = /iPhone|Android|iPad|iPod/i.test(navigator.userAgent);
+      const isPortrait = window.innerHeight > window.innerWidth;
+
+      const modal = document.getElementById('orientationModal');
+      const iframe = document.getElementById('powerBIFrame');
+
+      if (isMobile && isPortrait) {
+        modal.style.display = 'block';
+        iframe.style.display = 'none';
+      } else {
+        modal.style.display = 'none';
+        iframe.style.display = 'block';
+      }
+    }
+
+    // Ejecutar al cargar
+    checkOrientation();
+
+    // Ejecutar al cambiar orientación o tamaño
+    window.addEventListener('resize', checkOrientation);
+    window.addEventListener('orientationchange', checkOrientation);
+  </script>
 
 </body>
 </html>
